@@ -1,30 +1,7 @@
 const { ApolloServer } = require("apollo-server");
-const gql = require("graphql-tag");
 const mongoose = require("mongoose");
 const { MONGODB } = require("./config");
-
-const Post = require("./models/Post");
-const User = require("./models/User");
-
-const typeDefs = gql`
-  type Post {
-    _id: ID!
-    body: String!
-    createdAt: String!
-    username: String!
-  }
-  type Query {
-    getPosts: [Post]
-  }
-`;
-
-const resolvers = {
-  Query: {
-    getPosts: async () => {
-      return Post.find();
-    },
-  },
-};
+const { typeDefs, resolvers } = require('./schemas');
 
 const server = new ApolloServer({
   typeDefs,
@@ -40,3 +17,9 @@ mongoose
   .then((res) => {
     console.log(`Server running at ${res.url}`);
   });
+
+    // TODO Validate user data
+        // TODO make sure user doesnt already exist
+        // TODO has password before store
+        // TODO create auth token
+      }
